@@ -10,7 +10,7 @@ def main(sound):
         sound_obj.play()
         
         
-        duration = sound_obj.get_length()
+        duration = sound_obj.get_zlength()
         time.sleep(duration)
         
 
