@@ -3,41 +3,59 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import time
 
-def main(sound):
+def play(sound):
     try:
         pygame.mixer.init()
         sound_obj = pygame.mixer.Sound(sound)
         sound_obj.play()
         
         
-        duration = sound_obj.get_zlength()
+        duration = sound_obj.get_length()
         time.sleep(duration)
         
 
 
     except Exception as e:
-        print("Audio initialization failed!")
+        print(f"Playback failed {e}")
         return
     
 
 if __name__ == "__main__":
 
-        folder = r"A:\Music Player using python\music"
+        folder = r"A:\Music Player\music"
         if not os.path.isdir(folder):
             print("the folder did not exist") 
         else:
             while True:
                 try:
-                    songs = "\n".join(os.listdir(folder))
-                    if songs == "":
+                    songs = os.listdir(folder)
+ 
+                    if songs == []:
                         print("No files in the music folder")
                         break
                     
-                    print(f"songs:\n---------------------------\n{songs}\n---------------------------")
-                    choice = input("\nEnter the song you want to play: ")
+                    print("---------SONGS---------")
+                    for index , song in enumerate(songs , start=1):
+                        print(f"{index}. {song}")
+                    print("-----------------------")
 
-                    with open(rf"{folder}\{choice}.mp3") as sound:
-                        main(rf"{folder}\{choice}.mp3")                        
+                    choice_input = input("Enter the song number (or 'Q' to quit): ").strip()
+
+                    if choice_input.lower() == "q":
+                        break
+
+                    try:
+                        choice = int(choice_input) - 1
+                    except ValueError:
+                        print("Please enter a song number or Q to quit.\n")
+                        continue
+                    
+                    if 0 <= choice < len(songs):
+                        play(os.path.join(folder, songs[choice]))
+                    else:
+                        print("Invalid choice\n")
+                    
+                                            
 
                 except FileNotFoundError as e:
                     print("\nEnter a valid song\n")
