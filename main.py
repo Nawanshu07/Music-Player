@@ -3,15 +3,14 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import time
 
-def play(sound):
+pygame.mixer.init()
+def play(folder , song):
     try:
-        pygame.mixer.init()
-        sound_obj = pygame.mixer.Sound(sound)
-        sound_obj.play()
-        
-        
-        duration = sound_obj.get_length()
-        time.sleep(duration)
+        file_path = os.path.join(folder, song)
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.play()
+               
+        print(f"Now playing {song}")
         
 
 
@@ -19,7 +18,6 @@ def play(sound):
         print(f"Playback failed {e}")
         return
     
-
 if __name__ == "__main__":
 
         folder = r"A:\Music Player\music"
@@ -51,7 +49,23 @@ if __name__ == "__main__":
                         continue
                     
                     if 0 <= choice < len(songs):
-                        play(os.path.join(folder, songs[choice]))
+                        play(folder,songs[choice])
+                        time.sleep(0.1)
+                        playing = True
+                        while playing:
+                            print("Commands: [P]ause , [R]esume , [S]top")
+                            command = input("Enter the command: ").lower()
+
+                            if command == "p":
+                                pygame.mixer.music.pause()
+                            elif command == "r":
+                                pygame.mixer.music.unpause()
+                            elif command == "s":
+                                pygame.mixer.music.stop()
+                                playing = False
+                            else:
+                                print("Enter a valid command")
+
                     else:
                         print("Invalid choice\n")
                     
