@@ -21,12 +21,13 @@ def play(folder , song):
 if __name__ == "__main__":
 
         folder = r"A:\Music Player\music"
+        ValidExtension = (".mp3",".wav")
         if not os.path.isdir(folder):
             print("the folder did not exist") 
         else:
             while True:
                 try:
-                    songs = os.listdir(folder)
+                    songs = [f for f in os.listdir(folder) if f.endswith(ValidExtension)]
  
                     if songs == []:
                         print("No files in the music folder")
