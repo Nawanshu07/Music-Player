@@ -37,7 +37,7 @@ for song in songs:
     song_button.pack(
         fill="x",
         padx=10,
-        pady=2
+        pady=10
     )
 
 scrollbar = tk.Scrollbar(side_bar)
